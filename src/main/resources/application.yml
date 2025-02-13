@@ -1,7 +1,8 @@
+
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/your_database
-    username: your_username
+    username: your_user
     password: your_password
     driver-class-name: com.mysql.cj.jdbc.Driver
 
@@ -22,3 +23,5 @@ spring:
 logging:
   level.org.hibernate.SQL: DEBUG
   level.org.hibernate.type: TRACE
+server:
+  port: 8082
