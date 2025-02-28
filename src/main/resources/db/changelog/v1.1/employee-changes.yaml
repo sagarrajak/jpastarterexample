@@ -1,0 +1,100 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: your_name
+      changes:
+        # Rename 'name' column to 'first_name' and add 'last_name'
+        - renameColumn:
+            tableName: employee
+            oldColumnName: name
+            newColumnName: first_name
+            columnDataType: varchar(255)
+            constraints:
+              nullable: false
+
+        - addColumn:
+            tableName: employee
+            columns:
+              - column:
+                  name: last_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+
+        # Add 'manager_id' column for the @ManyToOne relationship
+        - addColumn:
+            tableName: employee
+            columns:
+              - column:
+                  name: manager_id
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+
+        # Add 'employee_type' column for the @Enumerated field
+        - addColumn:
+            tableName: employee
+            columns:
+              - column:
+                  name: employee_type
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+
+        # Add columns for the embedded 'billing_address' object
+        - addColumn:
+            tableName: employee
+            columns:
+              - column:
+                  name: billing_street1
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: billing_street2
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: billing_city
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: billing_zipcode
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+
+        # Add columns for the embedded 'shipping_address' object
+        - addColumn:
+            tableName: employee
+            columns:
+              - column:
+                  name: shipping_street1
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: shipping_street2
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: shipping_city
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: shipping_zipcode
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+
+        # Add foreign key constraint for 'manager_id'
+        - addForeignKeyConstraint:
+            baseTableName: employee
+            baseColumnNames: manager_id
+            constraintName: fk_employee_manager
+            referencedTableName: employee
+            referencedColumnNames: id
