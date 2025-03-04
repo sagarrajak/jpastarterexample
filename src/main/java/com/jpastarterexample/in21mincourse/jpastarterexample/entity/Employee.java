@@ -18,10 +18,10 @@ public class Employee {
         @EmployeeId
         private String id; // Primary key will be "EMP-1", "EMP-2", etc.
 
-        @Column(name = "first_name", nullable = false)
+        @Column(name = "first_name", nullable = true)
         private String firstName;
 
-        @Column(name = "last_name", nullable = false)
+        @Column(name = "last_name", nullable = true)
         private String lastName;
 
         private Double salery;
@@ -37,23 +37,23 @@ public class Employee {
         private String fullName;
 
         @Enumerated(EnumType.STRING)
-        private String employeeType;
+        private EmployeeType employeeType;
 
 
         @AttributeOverrides({
                 @AttributeOverride(name = "street1", column = @Column(name = "billing_street1")),
                 @AttributeOverride(name = "street2", column = @Column(name = "billing_street2")),
-                @AttributeOverride(name = "city", column = @Column(name = "billling_city")),
+                @AttributeOverride(name = "city", column = @Column(name = "billing_city")),
                 @AttributeOverride(name = "zipcode", column = @Column(name = "billing_zipcode")),
         })
         private Address billingAddress;
 
 
         @AttributeOverrides({
-                @AttributeOverride(name = "street1", column = @Column(name = "billing_street1")),
-                @AttributeOverride(name = "street2", column = @Column(name = "billing_street2")),
-                @AttributeOverride(name = "city", column = @Column(name = "billling_city")),
-                @AttributeOverride(name = "zipcode", column = @Column(name = "billing_zipcode")),
+                @AttributeOverride(name = "street1", column = @Column(name = "shipping_street1")),
+                @AttributeOverride(name = "street2", column = @Column(name = "shipping_street2")),
+                @AttributeOverride(name = "city", column = @Column(name = "shipping_city")),
+                @AttributeOverride(name = "zipcode", column = @Column(name = "shipping_zipcode")),
         })
         private Address shippingAddress;
 }

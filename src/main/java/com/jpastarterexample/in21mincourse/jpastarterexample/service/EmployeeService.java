@@ -19,6 +19,7 @@ public class EmployeeService {
         for (int i = 1; i <= 10; i++) {
             Employee employee = new Employee();
             employee.setFirstName("Employee " + i);
+            employee.setLastName("Employee " + i);
             employee.setSalery(1000.0 * i); // Adjust the salary as needed
             em.persist(employee);
         }

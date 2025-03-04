@@ -14,8 +14,8 @@ public class JpaStarterExampleIn21mincourseApplication implements CommandLineRun
 		ConfigurableApplicationContext run = SpringApplication.run(JpaStarterExampleIn21mincourseApplication.class, args);
 //		ProductService productService = run.getBean("productService", ProductService.class);
 //		productService.createProduct();
-		EmployeeService employeeService = run.getBean("employeeService", EmployeeService.class);
-		employeeService.saveDummyEmployees();
+//		EmployeeService employeeService = run.getBean("employeeService", EmployeeService.class);
+//		employeeService.saveDummyEmployees();
 	}
 
 	@Override
