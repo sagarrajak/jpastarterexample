@@ -1,0 +1,44 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd">
+
+    <!-- Create BankAccount Table -->
+    <changeSet id="001-create-bank-account-table" author="sagar">
+        <createTable tableName="bank_account">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="bank_owner" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_number" type="VARCHAR(255)"/>
+            <column name="bank_name" type="VARCHAR(255)"/>
+            <column name="ifsc_code" type="VARCHAR(255)"/>
+            <column name="bank_code" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Create CreditCard Table -->
+    <changeSet id="002-create-credit-card-table" author="your-name">
+        <createTable tableName="credit_card">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="cc_owner" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="number" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="exp_month" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="exp_year" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

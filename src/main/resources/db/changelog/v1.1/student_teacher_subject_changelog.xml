@@ -1,0 +1,56 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd">
+    <changeSet id="0001-create-student-table" author="sagar">
+        <createTable tableName="student">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="firstName"  type="varchar(255)"/>
+            <column name="lastName"  type="varchar(255)"/>
+            <column name="email" type="varchar(255)">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="phone" type="varchar(255)">
+                <constraints unique="true" />
+            </column>
+            <column name="major" type="varchar(255)" />
+            <column name="course" type="varchar(255)" />
+        </createTable>
+    </changeSet>
+    <changeSet id="0001-create-teacher-table" author="sagar">
+        <createTable tableName="teacher">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="firstName"  type="varchar(255)"/>
+            <column name="lastName"  type="varchar(255)"/>
+            <column name="email" type="varchar(255)">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="phone" type="varchar(255)">
+                <constraints unique="true" />
+            </column>
+            <column name="subject_id" type="bigint" />
+        </createTable>
+    </changeSet>
+    <changeSet id="0001-create-subject-table" author="sagar">
+        <createTable tableName="subjects">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="name"  type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0001-add-foreign-key" author="sagar">
+      <addForeignKeyConstraint
+              baseTableName="teacher"
+              baseColumnNames="subject_id"
+              constraintName="fk_teacher_subject"
+              referencedTableName="subjects"
+            referencedColumnNames="id" />
+    </changeSet>
+</databaseChangeLog>

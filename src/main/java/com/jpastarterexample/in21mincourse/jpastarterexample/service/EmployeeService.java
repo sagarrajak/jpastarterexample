@@ -18,7 +18,7 @@ public class EmployeeService {
     public void saveDummyEmployees() {
         for (int i = 1; i <= 10; i++) {
             Employee employee = new Employee();
-            employee.setName("Employee " + i);
+            employee.setFirstName("Employee " + i);
             employee.setSalery(1000.0 * i); // Adjust the salary as needed
             em.persist(employee);
         }

@@ -1,0 +1,16 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd">
+    <changeSet id="create-index-bank-account_number" author="sagar">
+        <createIndex tableName="bank_account" indexName="idx_bank_account">
+            <column name="account_number"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="create-index-bank-account_name" author="sagar">
+        <createIndex tableName="bank_account" indexName="idx_bank_account_name">
+            <column name="bank_owner"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>
