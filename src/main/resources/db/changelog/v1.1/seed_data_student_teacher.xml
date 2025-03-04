@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <!-- Insert Sample Subjects -->
+    <changeSet id="1" author="your_name">
+        <insert tableName="subjects">
+            <column name="id" value="1"/>
+            <column name="name" value="Mathematics"/>
+        </insert>
+        <insert tableName="subjects">
+            <column name="id" value="2"/>
+            <column name="name" value="Physics"/>
+        </insert>
+    </changeSet>
+
+    <!-- Insert Sample Persons -->
+    <changeSet id="2" author="your_name">
+        <insert tableName="person">
+            <column name="id" value="1"/>
+            <column name="person_type" value="teacher"/>
+            <column name="firstName" value="John"/>
+            <column name="lastName" value="Doe"/>
+            <column name="email" value="johndoe@example.com"/>
+            <column name="phone" value="1234567890"/>
+            <column name="age" value="35"/>
+            <column name="subject_id" value="1"/>
+        </insert>
+
+        <insert tableName="person">
+            <column name="id" value="2"/>
+            <column name="person_type" value="teacher"/>
+            <column name="firstName" value="John"/>
+            <column name="lastName" value="Doe"/>
+            <column name="email" value="alice.smith@example.com"/>
+            <column name="phone" value="9876543210"/>
+            <column name="age" value="40"/>
+            <column name="subject_id" value="2"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
