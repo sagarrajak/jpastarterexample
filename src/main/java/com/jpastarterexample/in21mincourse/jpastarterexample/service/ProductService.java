@@ -1,19 +1,21 @@
 package com.jpastarterexample.in21mincourse.jpastarterexample.service;
 
 import com.jpastarterexample.in21mincourse.jpastarterexample.entity.Product;
+import com.jpastarterexample.in21mincourse.jpastarterexample.repository.ProductRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ProductService {
     private final EntityManager em;
-
-    public ProductService(EntityManager entityManager) {
-        this.em = entityManager;
-    }
+    private final ProductRepository productRepository;
 
     @Transactional
     public void createProduct() {
@@ -22,4 +24,9 @@ public class ProductService {
         log.info("Creatting product {}", item.getName());
         this.em.persist(item);
     }
+
+    public Page<Product> getProducts(String name, Double minPrice, Double maxPrice, String category, Pageable pageable) {
+        return productRepository.findByCategory(name, minPrice, maxPrice, category, pageable);
+    }
+
 }

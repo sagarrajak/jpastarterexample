@@ -1,0 +1,74 @@
+package com.jpastarterexample.in21mincourse.jpastarterexample.repository.impl;
+
+import com.jpastarterexample.in21mincourse.jpastarterexample.entity.Product;
+import com.jpastarterexample.in21mincourse.jpastarterexample.repository.ProductRepositoryCustom;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+import lombok.AllArgsConstructor;
+import lombok.extern.java.Log;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@AllArgsConstructor
+public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
+    private final EntityManager em;
+
+
+    @Override
+    public Page<Product> findByCategory(String name, Double minPrice, Double maxPrice, String category, Pageable pageable) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Product> query = cb.createQuery(Product.class);
+        Root<Product> product = query.from(Product.class);
+        List<Predicate> predicates = getPredicates(name, minPrice, maxPrice, category, cb, product);
+        query.select(product).where(predicates.toArray(new Predicate[0])).orderBy(cb.asc(product.get("name")));
+        List<Product> resultList = em.createQuery(query)
+                .setFirstResult((int) pageable.getOffset())
+                .setMaxResults(pageable.getPageSize())
+                .getResultList();
+
+
+        // count query builder
+        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+        Root<Product> countProductRoot = countQuery.from(Product.class);
+        List<Predicate> predicates2 = getPredicates(name, minPrice, maxPrice, category, cb, countProductRoot);
+
+        countQuery.select(cb.count(countProductRoot))
+                .where(predicates2.toArray(new Predicate[0]));
+
+        Long singleResult = em.createQuery(countQuery).getSingleResult();
+
+
+        return new PageImpl<>(resultList, pageable, singleResult);
+    }
+
+    private static List<Predicate> getPredicates(
+            String name,
+            Double minPrice,
+            Double maxPrice,
+            String category,
+            CriteriaBuilder cb,
+            Root<Product> countProductRoot
+    ) {
+        List<Predicate> predicates2 = new ArrayList<>();
+        if (name != null && !name.isEmpty()) {
+            predicates2.add(cb.like(countProductRoot.get("name"),"%" + name + "%"  ));
+        }
+        if (minPrice != null && minPrice > 0) {
+            predicates2.add(cb.lessThanOrEqualTo(countProductRoot.get("minPrice"), minPrice));
+        }
+        if (maxPrice != null && maxPrice > 0) {
+            predicates2.add(cb.greaterThanOrEqualTo(countProductRoot.get("maxPrice"), maxPrice));
+        }
+        if (category != null && !category.isEmpty()) {
+            predicates2.add(cb.equal(countProductRoot.get("category"), category));
+        }
+        return predicates2;
+    }
+}

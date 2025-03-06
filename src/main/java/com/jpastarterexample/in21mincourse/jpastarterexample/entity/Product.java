@@ -24,4 +24,8 @@ public class Product {
     Long id;
 
     String name;
+
+    Double price;
+
+    String category;
 }
