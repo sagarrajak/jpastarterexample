@@ -1,13 +1,13 @@
-package com.jpastarterexample.in21mincourse.jpastarterexample.entity;
+package com.jpastarterexample.in21mincourse.jpastarterexample.entity.products;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.GenericGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -28,4 +28,7 @@ public class Product {
     Double price;
 
     String category;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
+    List<Bids> bids = new ArrayList<>();
 }

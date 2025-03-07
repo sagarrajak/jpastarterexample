@@ -1,20 +1,21 @@
 package com.jpastarterexample.in21mincourse.jpastarterexample.repository.impl;
 
-import com.jpastarterexample.in21mincourse.jpastarterexample.entity.Product;
+import com.jpastarterexample.in21mincourse.jpastarterexample.entity.products.Product;
 import com.jpastarterexample.in21mincourse.jpastarterexample.repository.ProductRepositoryCustom;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.AllArgsConstructor;
-import lombok.extern.java.Log;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
@@ -48,6 +49,26 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
         return new PageImpl<>(resultList, pageable, singleResult);
     }
 
+    @Override
+    public Page<String> findAllCategory(Pageable pageable) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<String> query = cb.createQuery(String.class);
+        Root<Product> productRoot = query.from(Product.class);
+        query.select(productRoot.get("category")).distinct(true);
+
+        List<String> resultList = em.createQuery(query)
+                .setFirstResult((int) pageable.getOffset())
+                .setMaxResults(pageable.getPageSize())
+                .getResultList();
+
+        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+        Root<Product> countProductRoot = countQuery.from(Product.class);
+        countQuery.select(cb.countDistinct(countProductRoot.get("category")));
+        Long singleResult = em.createQuery(countQuery).getSingleResult();
+
+        return new PageImpl<>(resultList, pageable, singleResult);
+    }
+
     private static List<Predicate> getPredicates(
             String name,
             Double minPrice,
@@ -70,5 +91,12 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
             predicates2.add(cb.equal(countProductRoot.get("category"), category));
         }
         return predicates2;
+    }
+
+    @Override
+    public Optional<Product> getProduct(Long id) {
+        Product product = em.createQuery("select p from Product p where p.id = :id", Product.class)
+                .setParameter("id", id).getResultList().get(0);
+        return Optional.of(product);
     }
 }

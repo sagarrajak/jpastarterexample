@@ -1,6 +1,6 @@
 package com.jpastarterexample.in21mincourse.jpastarterexample.service;
 
-import com.jpastarterexample.in21mincourse.jpastarterexample.entity.Product;
+import com.jpastarterexample.in21mincourse.jpastarterexample.entity.products.Product;
 import com.jpastarterexample.in21mincourse.jpastarterexample.repository.ProductRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
@@ -29,4 +29,7 @@ public class ProductService {
         return productRepository.findByCategory(name, minPrice, maxPrice, category, pageable);
     }
 
+    public Page<String> getAllCategories(Pageable pageable) {
+        return productRepository.findAllCategory(pageable);
+    }
 }

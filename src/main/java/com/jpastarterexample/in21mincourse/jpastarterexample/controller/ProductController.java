@@ -1,6 +1,6 @@
 package com.jpastarterexample.in21mincourse.jpastarterexample.controller;
 
-import com.jpastarterexample.in21mincourse.jpastarterexample.entity.Product;
+import com.jpastarterexample.in21mincourse.jpastarterexample.entity.products.Product;
 import com.jpastarterexample.in21mincourse.jpastarterexample.service.ProductService;
 import lombok.RequiredArgsConstructor;
 
@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.awt.print.Pageable;
 
 @RestController()
 @RequestMapping("products")
@@ -31,5 +29,15 @@ public class ProductController {
     ) {
         PageRequest pageRequest = PageRequest.of(page, size);
         return ResponseEntity.ok(productService.getProducts(name, minPrice, maxPrice, category, pageRequest));
+    }
+
+    @GetMapping("category")
+    public ResponseEntity<Page<String>> getAllCategory(
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "page", defaultValue = "0") int page, // Default page number is 0
+            @RequestParam(value = "size", defaultValue = "10") int size
+    ) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return ResponseEntity.ok(productService.getAllCategories(pageRequest));
     }
 }

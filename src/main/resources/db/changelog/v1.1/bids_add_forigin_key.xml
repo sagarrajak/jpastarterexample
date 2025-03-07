@@ -1,0 +1,18 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+    <changeSet id="add_column" author="sagar (generated)">
+        <addColumn tableName="bids">
+            <column name="product_id" type="bigint" />
+        </addColumn>
+        <addForeignKeyConstraint
+                baseTableName="bids"
+                baseColumnNames="product_id"
+                constraintName="fk_bids_product"
+                referencedTableName="products"
+                referencedColumnNames="id"
+        />
+    </changeSet>
+</databaseChangeLog>
+
