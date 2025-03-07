@@ -1,16 +1,18 @@
 package com.jpastarterexample.in21mincourse.jpastarterexample.controller;
 
+import com.jpastarterexample.in21mincourse.jpastarterexample.dto.CreateProductDto;
+import com.jpastarterexample.in21mincourse.jpastarterexample.entity.products.Bids;
 import com.jpastarterexample.in21mincourse.jpastarterexample.entity.products.Product;
 import com.jpastarterexample.in21mincourse.jpastarterexample.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
 
 @RestController()
 @RequestMapping("products")
@@ -39,5 +41,14 @@ public class ProductController {
     ) {
         PageRequest pageRequest = PageRequest.of(page, size);
         return ResponseEntity.ok(productService.getAllCategories(pageRequest));
+    }
+
+    @PostMapping()
+    public ResponseEntity addProduct(
+            @Valid @RequestBody CreateProductDto createProductDto
+    ) {
+        Bids bids = productService.addBidToProduct(createProductDto);
+        URI uri = URI.create("/bids/" + bids.getId());
+        return ResponseEntity.created(uri).build();
     }
 }

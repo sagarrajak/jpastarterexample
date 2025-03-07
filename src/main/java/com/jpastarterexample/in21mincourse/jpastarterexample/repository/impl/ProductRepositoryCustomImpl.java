@@ -96,7 +96,9 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
     @Override
     public Optional<Product> getProduct(Long id) {
         Product product = em.createQuery("select p from Product p where p.id = :id", Product.class)
-                .setParameter("id", id).getResultList().get(0);
+                .setParameter("id", id)
+                .getResultList()
+                .get(0);
         return Optional.of(product);
     }
 }
