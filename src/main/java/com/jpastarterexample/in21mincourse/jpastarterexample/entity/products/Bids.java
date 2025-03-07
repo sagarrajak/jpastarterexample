@@ -1,5 +1,6 @@
 package com.jpastarterexample.in21mincourse.jpastarterexample.entity.products;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -24,7 +25,8 @@ public class Bids {
     @org.hibernate.annotations.UpdateTimestamp
     LocalDateTime updatedDate;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")
     Product product;
 }

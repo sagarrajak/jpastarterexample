@@ -29,6 +29,6 @@ public class Product {
 
     String category;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     List<Bids> bids = new ArrayList<>();
 }

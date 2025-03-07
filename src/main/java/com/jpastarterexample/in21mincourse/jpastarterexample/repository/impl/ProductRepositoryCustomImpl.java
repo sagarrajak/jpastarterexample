@@ -4,10 +4,7 @@ import com.jpastarterexample.in21mincourse.jpastarterexample.entity.products.Pro
 import com.jpastarterexample.in21mincourse.jpastarterexample.repository.ProductRepositoryCustom;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -27,6 +24,7 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Product> query = cb.createQuery(Product.class);
         Root<Product> product = query.from(Product.class);
+//        product.fetch("bids", JoinType.LEFT);
         List<Predicate> predicates = getPredicates(name, minPrice, maxPrice, category, cb, product);
         query.select(product).where(predicates.toArray(new Predicate[0])).orderBy(cb.asc(product.get("name")));
         List<Product> resultList = em.createQuery(query)
@@ -82,10 +80,10 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
             predicates2.add(cb.like(countProductRoot.get("name"),"%" + name + "%"  ));
         }
         if (minPrice != null && minPrice > 0) {
-            predicates2.add(cb.lessThanOrEqualTo(countProductRoot.get("minPrice"), minPrice));
+            predicates2.add(cb.lessThanOrEqualTo(countProductRoot.get("price"), minPrice));
         }
         if (maxPrice != null && maxPrice > 0) {
-            predicates2.add(cb.greaterThanOrEqualTo(countProductRoot.get("maxPrice"), maxPrice));
+            predicates2.add(cb.greaterThanOrEqualTo(countProductRoot.get("price"), maxPrice));
         }
         if (category != null && !category.isEmpty()) {
             predicates2.add(cb.equal(countProductRoot.get("category"), category));
