@@ -2,6 +2,7 @@ package com.jpastarterexample.in21mincourse.jpastarterexample.entity.inheritance
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Formula;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -17,6 +18,9 @@ public abstract class Person {
     private String email;
     @Column(unique = true)
     private String phone;
+
+    @Formula("concat(first_name, ' ', last_name)")
+    private String fullName;
 
     private int age;
 }
